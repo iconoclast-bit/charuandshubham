@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { MapPin, Clock, Calendar } from 'lucide-react';
 import MarigoldShower from './MarigoldShower';
 import FireworksEffect from './FireworksEffect';
+import CalendarButton from './CalendarButton';
 
 interface Event {
   name: string;
@@ -164,6 +165,15 @@ const EventCard = ({
                   </span>
                 </div>
               )}
+
+              {/* Calendar Integration */}
+              <CalendarButton
+                eventName={event.name}
+                date={event.date}
+                time={event.time}
+                location={event.location}
+                description={event.note}
+              />
             </motion.div>
           </motion.div>
         </div>

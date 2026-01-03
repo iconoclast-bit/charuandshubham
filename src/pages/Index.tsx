@@ -3,6 +3,9 @@ import EventCard from '@/components/EventCard';
 import FamilyCredits from '@/components/FamilyCredits';
 import FooterSection from '@/components/FooterSection';
 import RSVPButton from '@/components/RSVPButton';
+import BackgroundMusic from '@/components/BackgroundMusic';
+import VenueSection from '@/components/VenueSection';
+import PhotoGallery from '@/components/PhotoGallery';
 
 // Import assets
 import carnivalImg from '@/assets/carnival.png';
@@ -85,11 +88,20 @@ const Index = () => {
         ))}
       </section>
 
+      {/* Venue Maps Section */}
+      <VenueSection />
+
+      {/* Photo Gallery */}
+      <PhotoGallery />
+
       {/* Family Credits */}
       <FamilyCredits />
 
       {/* Footer with Countdown */}
       <FooterSection />
+
+      {/* Background Music Control */}
+      <BackgroundMusic />
 
       {/* Floating RSVP Button */}
       <RSVPButton />
