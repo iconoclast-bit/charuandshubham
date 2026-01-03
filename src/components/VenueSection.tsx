@@ -1,78 +1,65 @@
 import { motion } from 'framer-motion';
-import { MapPin, ExternalLink } from 'lucide-react';
+import VenueMap from './VenueMap';
 
 const venues = [
   {
     name: "Gurjar Bhavan",
-    address: "Sector 16, Faridabad",
-    mapQuery: "Gurjar+Bhavan+Sector+16+Faridabad+Haryana+India"
+    address: "Sector 16, Faridabad, Haryana",
+    mapQuery: "Gurjar Bhavan, Sector 16, Faridabad, Haryana, India"
   },
   {
     name: "Kisan Bhavan",
-    address: "Sector 16, Faridabad",
-    mapQuery: "Kisan+Bhavan+Sector+16+Faridabad+Haryana+India"
+    address: "Sector 16, Faridabad, Haryana",
+    mapQuery: "Kisan Bhavan, Sector 16, Faridabad, Haryana, India"
   },
   {
     name: "The Grand Ambience",
-    address: "Faridabad-Gurgaon Road",
-    mapQuery: "The+Grand+Ambience+Faridabad+Gurgaon+Road+Haryana+India"
+    address: "Faridabad-Gurgaon Road, Haryana",
+    mapQuery: "The Grand Ambience, Faridabad Gurgaon Road, Haryana, India"
   }
 ];
 
 const VenueSection = () => {
   return (
-    <section className="relative py-16 bg-gradient-to-b from-background to-background/95 overflow-hidden">
-      {/* Subtle decorative elements */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-gold rounded-full" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-gold rounded-full" />
+    <section className="relative py-20 bg-background overflow-hidden">
+      {/* Decorative Background */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gold rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="font-display text-3xl md:text-5xl text-gold mb-3">
+          <span className="inline-block px-4 py-1 bg-gold/10 border border-gold/30 rounded-full text-sm text-gold font-body tracking-wider uppercase mb-4">
+            Find Your Way
+          </span>
+          <h2 className="font-display text-4xl md:text-6xl text-gold mb-4">
             Venue Locations
           </h2>
-          <div className="w-24 h-0.5 bg-gradient-gold mx-auto" />
+          <p className="font-heading text-lg text-muted-foreground italic max-w-lg mx-auto">
+            All the places where we'll celebrate our union
+          </p>
         </motion.div>
 
-        {/* Elegant Venue List */}
-        <div className="space-y-4">
+        {/* Venue Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {venues.map((venue, index) => (
-            <motion.a
+            <motion.div
               key={venue.name}
-              href={`https://www.google.com/maps/search/?api=1&query=${venue.mapQuery}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              whileHover={{ x: 10 }}
-              className="group flex items-center justify-between p-4 md:p-6 bg-gold/5 hover:bg-gold/10 border border-gold/20 hover:border-gold/40 rounded-xl transition-all duration-300"
             >
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center group-hover:bg-gold/20 transition-colors">
-                  <MapPin className="w-5 h-5 text-gold" />
-                </div>
-                <div>
-                  <h3 className="font-heading text-lg md:text-xl text-foreground group-hover:text-gold transition-colors">
-                    {venue.name}
-                  </h3>
-                  <p className="font-body text-sm text-muted-foreground">
-                    {venue.address}
-                  </p>
-                </div>
-              </div>
-              <ExternalLink className="w-5 h-5 text-gold/50 group-hover:text-gold transition-colors" />
-            </motion.a>
+              <VenueMap {...venue} />
+            </motion.div>
           ))}
         </div>
       </div>

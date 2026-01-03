@@ -1,66 +1,80 @@
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import heroMandapImg from '@/assets/hero-mandap.png';
-import FloatingLanterns from './FloatingLanterns';
+import weddingbgImg from '@/assets/weddingbg.png';
 
 const HeroSection = () => {
+  const titleText = "The Wedding Celebration of";
+
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden">
-      {/* Top gradient section with text */}
-      <div className="relative flex-shrink-0 py-16 md:py-24 bg-gradient-to-b from-[#1a3a5c] via-[#2d5a7b] to-transparent z-10">
-        {/* Floating Lanterns */}
-        <FloatingLanterns />
-        
-        {/* Content */}
-        <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
-          {/* Groom Name */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-            className="font-display text-5xl sm:text-6xl md:text-8xl text-cream mb-2 tracking-[0.3em] uppercase drop-shadow-lg"
-          >
-            Charu
-          </motion.h1>
-
-          {/* Weds Text */}
-          <motion.p
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="font-heading text-lg md:text-2xl text-cream/80 tracking-[0.5em] uppercase mb-2"
-          >
-            Weds
-          </motion.p>
-
-          {/* Bride Name */}
-          <motion.h1
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.9, ease: "easeOut" }}
-            className="font-display text-5xl sm:text-6xl md:text-8xl text-cream tracking-[0.3em] uppercase drop-shadow-lg"
-          >
-            Shubham
-          </motion.h1>
-        </div>
-      </div>
-
-      {/* Mandap Image Section */}
-      <div className="relative flex-1 min-h-[60vh]">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background with blur effect */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('${weddingbgImg}')`,
+          filter: 'blur(8px)',
+          transform: 'scale(1.1)',
+        }}
+      />
+      
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-cream/80" />
+      
+      {/* Decorative elements */}
+      <div className="absolute top-10 left-10 w-32 h-32 border-l-2 border-t-2 border-gold/30" />
+      <div className="absolute bottom-10 right-10 w-32 h-32 border-r-2 border-b-2 border-gold/30" />
+      
+      {/* Content */}
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+        {/* Date Badge */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.1 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-          className="absolute inset-0"
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="inline-block mb-8"
         >
-          <img
-            src={heroMandapImg}
-            alt="Wedding Mandap"
-            className="w-full h-full object-cover object-center"
-          />
-          {/* Gradient overlay at top for seamless blend */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#2d5a7b] via-transparent to-transparent h-32" />
+          <span className="px-6 py-2 bg-gradient-gold text-primary-foreground font-body text-sm tracking-widest uppercase rounded-full shadow-gold">
+            10 - 12 February 2026
+          </span>
         </motion.div>
+
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="font-heading text-lg md:text-xl text-muted-foreground mb-4 italic"
+        >
+          {titleText}
+        </motion.p>
+
+        {/* Main Title with animation */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+          className="font-display text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gold mb-6 leading-tight drop-shadow-lg whitespace-nowrap"
+        >
+          Charu & Shubham
+        </motion.h1>
+
+        {/* Decorative line */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, delay: 1.5 }}
+          className="w-48 h-0.5 bg-gradient-gold mx-auto mb-6"
+        />
+
+        {/* Tagline */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.8 }}
+          className="font-heading text-xl md:text-2xl text-foreground/80 italic"
+        >
+          Together with their families invite you to celebrate their union
+        </motion.p>
       </div>
 
       {/* Scroll indicator */}
@@ -68,16 +82,16 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 2.2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="font-body text-sm text-cream/80 tracking-wider uppercase drop-shadow-lg">
+        <span className="font-body text-sm text-muted-foreground tracking-wider uppercase">
           Scroll to Begin
         </span>
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <ChevronDown className="w-6 h-6 text-gold drop-shadow-lg" />
+          <ChevronDown className="w-6 h-6 text-gold" />
         </motion.div>
       </motion.div>
     </section>

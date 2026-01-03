@@ -27,12 +27,12 @@ const BackgroundMusic = () => {
 
   return (
     <>
-      {/* Hidden Audio Element - Indian wedding instrumental music */}
+      {/* Hidden Audio Element - Using a royalty-free Indian wedding track */}
       <audio
         ref={audioRef}
         loop
         preload="auto"
-        src="https://assets.mixkit.co/music/preview/mixkit-spirit-in-the-woods-139.mp3"
+        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"
       />
 
       {/* Music Control Button */}
