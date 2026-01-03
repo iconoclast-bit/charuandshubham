@@ -23,6 +23,7 @@ interface EventCardProps {
   index: number;
   effect?: 'marigold' | 'fireworks' | 'none';
   totalCards: number;
+  swapLayout?: boolean;
 }
 
 const EventCard = ({ 
@@ -32,10 +33,13 @@ const EventCard = ({
   video,
   index, 
   effect = 'none',
-  totalCards 
+  totalCards,
+  swapLayout = false,
 }: EventCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { margin: "-20%" });
+
+  const hasVisualContent = video || foregroundImage;
 
   return (
     <div 
@@ -75,106 +79,119 @@ const EventCard = ({
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}
-            className="max-w-2xl mx-auto text-center"
+            className="max-w-4xl mx-auto w-full"
           >
             {/* Event Number Badge */}
-            <div className="inline-block mb-6">
-              <span className="px-4 py-1 bg-gold/20 backdrop-blur-sm border border-gold/30 text-cream font-body text-xs tracking-widest uppercase rounded-full">
+            <div className="text-center mb-6">
+              <span className="inline-block px-4 py-1 bg-gold/20 backdrop-blur-sm border border-gold/30 text-cream font-body text-xs tracking-widest uppercase rounded-full">
                 Event {index + 1} of {totalCards}
               </span>
             </div>
 
-            {/* Foreground Image or Video */}
-            {video ? (
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                viewport={{ once: true }}
-                className="mb-8"
-              >
-                <div className="relative mx-auto max-w-md overflow-hidden rounded-2xl border-4 border-gold/40 shadow-gold">
-                  <video
-                    src={video}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-auto"
-                  />
-                </div>
-              </motion.div>
-            ) : foregroundImage && (
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                viewport={{ once: true }}
-                className="mb-8 animate-float"
-              >
-                <img
-                  src={foregroundImage}
-                  alt={event.name}
-                  className="mx-auto max-w-xs md:max-w-sm h-auto drop-shadow-2xl"
-                />
-              </motion.div>
-            )}
+            {/* Layout: Swapped for Sagai/Sangeet and Phoolon ki Haldi */}
+            <div className={`flex flex-col ${swapLayout && hasVisualContent ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center justify-center gap-8 lg:gap-12`}>
+              
+              {/* Text Content Side */}
+              <div className={`flex-1 ${hasVisualContent ? 'text-center lg:text-left' : 'text-center'}`}>
+                {/* Event Name */}
+                <motion.h2
+                  initial={{ y: 30, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  className="font-display text-4xl md:text-6xl lg:text-7xl text-cream mb-6 drop-shadow-lg"
+                >
+                  {event.name}
+                </motion.h2>
 
-            {/* Event Name */}
-            <motion.h2
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              viewport={{ once: true }}
-              className="font-display text-5xl md:text-7xl text-cream mb-4 drop-shadow-lg"
-            >
-              {event.name}
-            </motion.h2>
+                {/* Event Details */}
+                <motion.div
+                  initial={{ y: 30, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  viewport={{ once: true }}
+                  className="space-y-4"
+                >
+                  {/* Date & Time */}
+                  <div className={`flex flex-wrap items-center gap-6 ${hasVisualContent ? 'justify-center lg:justify-start' : 'justify-center'}`}>
+                    <div className="flex items-center gap-2 text-cream/90">
+                      <Calendar className="w-5 h-5 text-gold" />
+                      <span className="font-heading text-lg">{event.date}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-cream/90">
+                      <Clock className="w-5 h-5 text-gold" />
+                      <span className="font-heading text-lg">{event.time}</span>
+                    </div>
+                  </div>
 
-            {/* Event Details */}
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              viewport={{ once: true }}
-              className="space-y-4 mt-8"
-            >
-              {/* Date & Time */}
-              <div className="flex flex-wrap items-center justify-center gap-6">
-                <div className="flex items-center gap-2 text-cream/90">
-                  <Calendar className="w-5 h-5 text-gold" />
-                  <span className="font-heading text-lg">{event.date}</span>
-                </div>
-                <div className="flex items-center gap-2 text-cream/90">
-                  <Clock className="w-5 h-5 text-gold" />
-                  <span className="font-heading text-lg">{event.time}</span>
-                </div>
+                  {/* Location */}
+                  <div className={`flex items-center gap-2 text-cream/80 ${hasVisualContent ? 'justify-center lg:justify-start' : 'justify-center'}`}>
+                    <MapPin className="w-5 h-5 text-gold" />
+                    <span className="font-body text-base">{event.location}</span>
+                  </div>
+
+                  {/* Note */}
+                  {event.note && (
+                    <div className={hasVisualContent ? 'lg:text-left' : ''}>
+                      <span className="inline-block px-4 py-2 bg-gold/20 backdrop-blur-sm border border-gold/30 rounded-lg text-cream font-body text-sm italic">
+                        {event.note}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Calendar Integration */}
+                  <div className={hasVisualContent ? 'lg:text-left' : ''}>
+                    <CalendarButton
+                      eventName={event.name}
+                      date={event.date}
+                      time={event.time}
+                      location={event.location}
+                      description={event.note}
+                    />
+                  </div>
+                </motion.div>
               </div>
 
-              {/* Location */}
-              <div className="flex items-center justify-center gap-2 text-cream/80">
-                <MapPin className="w-5 h-5 text-gold" />
-                <span className="font-body text-base">{event.location}</span>
-              </div>
-
-              {/* Note */}
-              {event.note && (
-                <div className="mt-4">
-                  <span className="inline-block px-4 py-2 bg-gold/20 backdrop-blur-sm border border-gold/30 rounded-lg text-cream font-body text-sm italic">
-                    {event.note}
-                  </span>
+              {/* Visual Content Side (Caricature/Video) */}
+              {hasVisualContent && (
+                <div className="flex-1 flex items-center justify-center">
+                  {video ? (
+                    <motion.div
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.6, delay: 0.4 }}
+                      viewport={{ once: true }}
+                    >
+                      <div className="relative mx-auto max-w-sm overflow-hidden rounded-2xl border-4 border-gold/40 shadow-gold">
+                        <video
+                          src={video}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          className="w-full h-auto object-cover"
+                          style={{ marginTop: '-10px' }}
+                        />
+                      </div>
+                    </motion.div>
+                  ) : foregroundImage && (
+                    <motion.div
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.6, delay: 0.4 }}
+                      viewport={{ once: true }}
+                      className="animate-float"
+                    >
+                      <img
+                        src={foregroundImage}
+                        alt={event.name}
+                        className="mx-auto max-w-xs md:max-w-sm lg:max-w-md h-auto drop-shadow-2xl"
+                      />
+                    </motion.div>
+                  )}
                 </div>
               )}
-
-              {/* Calendar Integration */}
-              <CalendarButton
-                eventName={event.name}
-                date={event.date}
-                time={event.time}
-                location={event.location}
-                description={event.note}
-              />
-            </motion.div>
+            </div>
           </motion.div>
         </div>
 
