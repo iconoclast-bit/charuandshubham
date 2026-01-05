@@ -10,6 +10,7 @@ import PhotoGallery from '@/components/PhotoGallery';
 // Import assets
 import carnivalImg from '@/assets/carnival.png';
 import haldibgImg from '@/assets/haldibg.png';
+import haldibg3Img from '@/assets/haldibg-3.png';
 import sangeetImg from '@/assets/sangeet.png';
 import sangeetbgImg from '@/assets/sangeetbg.png';
 import weddingbgImg from '@/assets/weddingbg.png';
@@ -24,7 +25,6 @@ const weddingData = {
       date: "10th Feb 2026",
       time: "2:00 PM",
       location: "Gurjar Bhavan, Sec 16 & Sec 49 (Home)",
-      asset: carnivalImg,
       bg: haldibgImg,
       effect: 'marigold' as const,
     },
@@ -51,7 +51,8 @@ const weddingData = {
       time: "10:00 AM",
       location: "Kisan Bhavan, Sec 16",
       note: "Theme: Shades of Blue",
-      bg: weddingbgImg,
+      asset: carnivalImg,
+      bg: haldibg3Img,
       effect: 'marigold' as const,
     },
     {
