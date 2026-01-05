@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MapPin, ExternalLink, Navigation } from 'lucide-react';
+import { MapPin, Map, Compass } from 'lucide-react';
 
 interface VenueMapProps {
   name: string;
@@ -54,7 +54,7 @@ const VenueMap = ({ name, address, mapQuery }: VenueMapProps) => {
             rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-gold/10 hover:bg-gold/20 border border-gold/30 rounded-lg text-sm text-foreground transition-colors"
           >
-            <ExternalLink className="w-4 h-4" />
+            <Map className="w-4 h-4 text-gold/70" />
             View Map
           </a>
           <a
@@ -63,7 +63,7 @@ const VenueMap = ({ name, address, mapQuery }: VenueMapProps) => {
             rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-gradient-gold text-primary-foreground rounded-lg text-sm font-medium transition-transform hover:scale-105"
           >
-            <Navigation className="w-4 h-4" />
+            <Compass className="w-4 h-4" />
             Directions
           </a>
         </div>

@@ -1,6 +1,5 @@
 import HeroSection from '@/components/HeroSection';
 import EventCard from '@/components/EventCard';
-import FamilyCredits from '@/components/FamilyCredits';
 import FooterSection from '@/components/FooterSection';
 import RSVPButton from '@/components/RSVPButton';
 import BackgroundMusic from '@/components/BackgroundMusic';
@@ -94,9 +93,6 @@ const Index = () => {
 
       {/* Photo Gallery */}
       <PhotoGallery />
-
-      {/* Family Credits */}
-      <FamilyCredits />
 
       {/* Footer with Countdown */}
       <FooterSection />
