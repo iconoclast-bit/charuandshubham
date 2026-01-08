@@ -181,18 +181,23 @@ const EventCard = ({
               <>
                 {/* Event Name - Scroll-triggered fade-in with enhanced styling */}
             <motion.h2
-              className={`font-display mb-4 drop-shadow-lg font-bold ${index === 3 ? 'text-xl sm:text-2xl md:text-2xl' : 'text-2xl md:text-3xl lg:text-3xl'}`}
+              className={`font-display mb-4 font-bold ${index === 3 ? 'text-lg sm:text-xl md:text-2xl' : 'text-xl sm:text-2xl md:text-3xl'}`}
                 style={{
                 opacity: titleOpacity,
                 y: titleY,
+                textShadow: index === 3 
+                  ? '0 2px 8px rgba(0,0,0,0.8), 0 4px 16px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.4)'
+                  : '0 2px 10px rgba(0,0,0,0.7), 0 4px 20px rgba(0,0,0,0.5)',
                 ...(index === 4 
-                  ? { color: 'hsl(350, 65%, 35%)' } // Deep maroon/burgundy for Wedding to match header flowers
-                  : {
-                      background: 'linear-gradient(135deg, rgba(252, 248, 240, 1) 0%, rgba(252, 248, 240, 0.95) 50%, rgba(212, 175, 55, 0.8) 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                    }
+                  ? { color: 'hsl(350, 65%, 35%)' }
+                  : index === 3
+                    ? { color: '#1a365d' } // Deep navy blue for Phoolon ki Haldi - high contrast on pastel
+                    : {
+                        background: 'linear-gradient(135deg, rgba(252, 248, 240, 1) 0%, rgba(252, 248, 240, 0.95) 50%, rgba(212, 175, 55, 0.8) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                      }
                 ),
               }}
             >
@@ -225,9 +230,13 @@ const EventCard = ({
               }}
             >
               {/* Date & Time with Glassmorphism and Enhanced Animations */}
-              <div className={`flex flex-wrap items-center justify-center ${index === 3 ? 'gap-3' : 'gap-6'}`}>
+              <div className={`flex flex-wrap items-center justify-center ${index === 3 ? 'gap-2 sm:gap-3' : 'gap-3 sm:gap-6'}`}>
                 <motion.div 
-                  className={`flex items-center gap-2 text-cream/90 bg-gradient-to-br from-background/20 via-background/15 to-background/20 rounded-full border border-gold/20 shadow-lg ${index === 3 ? 'px-2 py-1 text-xs' : 'px-2.5 py-1.5 text-sm'}`}
+                  className={`flex items-center gap-1.5 sm:gap-2 rounded-full border shadow-lg ${
+                    index === 3 
+                      ? 'px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm bg-white/80 border-blue-300/50 text-blue-900' 
+                      : 'px-2.5 py-1.5 text-xs sm:text-sm text-cream/90 bg-gradient-to-br from-background/30 via-background/25 to-background/30 border-gold/30'
+                  }`}
                   style={{
                     backdropFilter: `blur(${currentButtonBlur}px)`,
                     WebkitBackdropFilter: `blur(${currentButtonBlur}px)`,
@@ -235,21 +244,24 @@ const EventCard = ({
                   whileHover={{ 
                     scale: 1.08, 
                     y: -3,
-                    boxShadow: "0 10px 30px rgba(212, 175, 55, 0.3)",
-                    borderColor: "rgba(212, 175, 55, 0.5)"
+                    boxShadow: index === 3 ? "0 10px 30px rgba(59, 130, 246, 0.3)" : "0 10px 30px rgba(212, 175, 55, 0.3)",
                   }}
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <motion.div
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
-                >
-                  <Calendar className={`text-gold ${index === 3 ? 'w-2 h-2' : 'w-2.5 h-2.5'}`} />
+                  >
+                    <Calendar className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${index === 3 ? 'text-blue-600' : 'text-gold'}`} />
                   </motion.div>
-                  <span className={`font-heading ${index === 3 ? 'text-xs' : 'text-sm'}`}>{event.date}</span>
+                  <span className="font-heading font-medium">{event.date}</span>
                 </motion.div>
                 <motion.div 
-                  className={`flex items-center gap-2 text-cream/90 bg-gradient-to-br from-background/20 via-background/15 to-background/20 rounded-full border border-gold/20 shadow-lg ${index === 3 ? 'px-2 py-1 text-xs' : 'px-2.5 py-1.5 text-sm'}`}
+                  className={`flex items-center gap-1.5 sm:gap-2 rounded-full border shadow-lg ${
+                    index === 3 
+                      ? 'px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm bg-white/80 border-blue-300/50 text-blue-900' 
+                      : 'px-2.5 py-1.5 text-xs sm:text-sm text-cream/90 bg-gradient-to-br from-background/30 via-background/25 to-background/30 border-gold/30'
+                  }`}
                   style={{
                     backdropFilter: `blur(${currentButtonBlur}px)`,
                     WebkitBackdropFilter: `blur(${currentButtonBlur}px)`,
@@ -257,41 +269,44 @@ const EventCard = ({
                   whileHover={{ 
                     scale: 1.08, 
                     y: -3,
-                    boxShadow: "0 10px 30px rgba(212, 175, 55, 0.3)",
-                    borderColor: "rgba(212, 175, 55, 0.5)"
+                    boxShadow: index === 3 ? "0 10px 30px rgba(59, 130, 246, 0.3)" : "0 10px 30px rgba(212, 175, 55, 0.3)",
                   }}
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <motion.div
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
-                >
-                  <Clock className={`text-gold ${index === 3 ? 'w-2 h-2' : 'w-2.5 h-2.5'}`} />
+                  >
+                    <Clock className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${index === 3 ? 'text-blue-600' : 'text-gold'}`} />
                   </motion.div>
-                  <span className={`font-heading ${index === 3 ? 'text-xs' : 'text-sm'}`}>{event.time}</span>
+                  <span className="font-heading font-medium">{event.time}</span>
                 </motion.div>
               </div>
 
               {/* Location with Enhanced Styling */}
               <motion.div 
-                className={`flex items-center justify-center gap-2 text-cream/90 rounded-full bg-background/5 ${index === 3 ? 'px-1.5 py-0.5' : 'px-2 py-1'}`}
+                className={`flex items-center justify-center gap-1.5 sm:gap-2 rounded-full ${
+                  index === 3 
+                    ? 'px-3 py-1.5 sm:px-4 sm:py-2 bg-white/70 text-blue-900 border border-blue-200/50' 
+                    : 'px-2 py-1 text-cream/90 bg-background/10'
+                }`}
                 style={{
                   backdropFilter: `blur(${currentButtonBlur}px)`,
                   WebkitBackdropFilter: `blur(${currentButtonBlur}px)`,
                 }}
                 whileHover={{ 
                   scale: 1.05,
-                  backgroundColor: "rgba(252, 248, 240, 0.1)"
+                  backgroundColor: index === 3 ? "rgba(255, 255, 255, 0.85)" : "rgba(252, 248, 240, 0.15)"
                 }}
                 transition={{ duration: 0.3 }}
               >
                 <motion.div
                   whileHover={{ scale: 1.2, rotate: [0, -10, 10, -10, 0] }}
                   transition={{ duration: 0.5 }}
-              >
-                <MapPin className={`text-gold ${index === 3 ? 'w-2 h-2' : 'w-2.5 h-2.5'}`} />
+                >
+                  <MapPin className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${index === 3 ? 'text-blue-600' : 'text-gold'}`} />
                 </motion.div>
-                <span className={`font-body ${index === 3 ? 'text-xs' : 'text-sm'}`}>{event.location}</span>
+                <span className={`font-body text-xs sm:text-sm font-medium`}>{event.location}</span>
               </motion.div>
 
               {/* Note with Glassmorphism */}
@@ -515,18 +530,23 @@ const EventCard = ({
 
                 {/* Event Name - Scroll-triggered fade-in with enhanced styling */}
                 <motion.h2
-                  className={`font-display mb-4 drop-shadow-lg font-bold ${index === 3 ? 'text-xl sm:text-2xl md:text-2xl' : 'text-2xl md:text-3xl lg:text-3xl'}`}
+                  className={`font-display mb-4 font-bold ${index === 0 ? 'text-xl sm:text-2xl md:text-3xl' : 'text-xl sm:text-2xl md:text-3xl'}`}
                   style={{
                     opacity: titleOpacity,
                     y: titleY,
+                    textShadow: index === 0 
+                      ? '0 2px 10px rgba(0,0,0,0.9), 0 4px 20px rgba(0,0,0,0.7), 0 0 50px rgba(0,0,0,0.5)'
+                      : '0 2px 10px rgba(0,0,0,0.7), 0 4px 20px rgba(0,0,0,0.5)',
                     ...(index === 4 
-                      ? { color: 'hsl(350, 65%, 35%)' } // Deep maroon/burgundy for Wedding to match header flowers
-                      : {
-                          background: 'linear-gradient(135deg, rgba(252, 248, 240, 1) 0%, rgba(252, 248, 240, 0.95) 50%, rgba(212, 175, 55, 0.8) 100%)',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          backgroundClip: 'text',
-                        }
+                      ? { color: 'hsl(350, 65%, 35%)' }
+                      : index === 0
+                        ? { color: '#fcf8f0' } // Pure cream white for Haldi - maximum contrast
+                        : {
+                            background: 'linear-gradient(135deg, rgba(252, 248, 240, 1) 0%, rgba(252, 248, 240, 0.95) 50%, rgba(212, 175, 55, 0.8) 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                          }
                     ),
                   }}
                 >
@@ -559,9 +579,13 @@ const EventCard = ({
                   }}
                 >
                   {/* Date & Time with Glassmorphism and Enhanced Animations */}
-                  <div className={`flex flex-wrap items-center justify-center ${index === 3 ? 'gap-3' : 'gap-6'}`}>
+                  <div className={`flex flex-wrap items-center justify-center gap-3 sm:gap-6`}>
                     <motion.div 
-                      className={`flex items-center gap-2 text-cream/90 bg-gradient-to-br from-background/20 via-background/15 to-background/20 rounded-full border border-gold/20 shadow-lg ${index === 3 ? 'px-2 py-1 text-xs' : 'px-2.5 py-1.5 text-sm'}`}
+                      className={`flex items-center gap-1.5 sm:gap-2 rounded-full border shadow-lg px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm ${
+                        index === 0 
+                          ? 'bg-black/40 border-gold/40 text-cream' 
+                          : 'text-cream/90 bg-gradient-to-br from-background/30 via-background/25 to-background/30 border-gold/30'
+                      }`}
                       style={{
                         backdropFilter: `blur(${currentButtonBlur}px)`,
                         WebkitBackdropFilter: `blur(${currentButtonBlur}px)`,
@@ -570,7 +594,6 @@ const EventCard = ({
                         scale: 1.08, 
                         y: -3,
                         boxShadow: "0 10px 30px rgba(212, 175, 55, 0.3)",
-                        borderColor: "rgba(212, 175, 55, 0.5)"
                       }}
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     >
@@ -578,12 +601,16 @@ const EventCard = ({
                         whileHover={{ rotate: 360 }}
                         transition={{ duration: 0.6 }}
                       >
-                        <Calendar className={`text-gold ${index === 3 ? 'w-2 h-2' : 'w-2.5 h-2.5'}`} />
+                        <Calendar className="text-gold w-3 h-3 sm:w-3.5 sm:h-3.5" />
                       </motion.div>
-                      <span className={`font-heading ${index === 3 ? 'text-xs' : 'text-sm'}`}>{event.date}</span>
+                      <span className="font-heading font-medium">{event.date}</span>
                     </motion.div>
                     <motion.div 
-                      className={`flex items-center gap-2 text-cream/90 bg-gradient-to-br from-background/20 via-background/15 to-background/20 rounded-full border border-gold/20 shadow-lg ${index === 3 ? 'px-2 py-1 text-xs' : 'px-2.5 py-1.5 text-sm'}`}
+                      className={`flex items-center gap-1.5 sm:gap-2 rounded-full border shadow-lg px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm ${
+                        index === 0 
+                          ? 'bg-black/40 border-gold/40 text-cream' 
+                          : 'text-cream/90 bg-gradient-to-br from-background/30 via-background/25 to-background/30 border-gold/30'
+                      }`}
                       style={{
                         backdropFilter: `blur(${currentButtonBlur}px)`,
                         WebkitBackdropFilter: `blur(${currentButtonBlur}px)`,
@@ -592,7 +619,6 @@ const EventCard = ({
                         scale: 1.08, 
                         y: -3,
                         boxShadow: "0 10px 30px rgba(212, 175, 55, 0.3)",
-                        borderColor: "rgba(212, 175, 55, 0.5)"
                       }}
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     >
@@ -600,22 +626,26 @@ const EventCard = ({
                         whileHover={{ rotate: 360 }}
                         transition={{ duration: 0.6 }}
                       >
-                        <Clock className={`text-gold ${index === 3 ? 'w-2 h-2' : 'w-2.5 h-2.5'}`} />
+                        <Clock className="text-gold w-3 h-3 sm:w-3.5 sm:h-3.5" />
                       </motion.div>
-                      <span className={`font-heading ${index === 3 ? 'text-xs' : 'text-sm'}`}>{event.time}</span>
+                      <span className="font-heading font-medium">{event.time}</span>
                     </motion.div>
                   </div>
 
                   {/* Location with Enhanced Styling */}
                   <motion.div 
-                    className={`flex items-center justify-center gap-2 text-cream/90 rounded-full bg-background/5 ${index === 3 ? 'px-1.5 py-0.5' : 'px-2 py-1'}`}
+                    className={`flex items-center justify-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 ${
+                      index === 0 
+                        ? 'bg-black/40 text-cream border border-gold/30' 
+                        : 'text-cream/90 bg-background/10'
+                    }`}
                     style={{
                       backdropFilter: `blur(${currentButtonBlur}px)`,
                       WebkitBackdropFilter: `blur(${currentButtonBlur}px)`,
                     }}
                     whileHover={{ 
                       scale: 1.05,
-                      backgroundColor: "rgba(252, 248, 240, 0.1)"
+                      backgroundColor: index === 0 ? "rgba(0, 0, 0, 0.5)" : "rgba(252, 248, 240, 0.15)"
                     }}
                     transition={{ duration: 0.3 }}
                   >
@@ -623,9 +653,9 @@ const EventCard = ({
                       whileHover={{ scale: 1.2, rotate: [0, -10, 10, -10, 0] }}
                       transition={{ duration: 0.5 }}
                     >
-                      <MapPin className={`text-gold ${index === 3 ? 'w-2 h-2' : 'w-2.5 h-2.5'}`} />
+                      <MapPin className="text-gold w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     </motion.div>
-                    <span className={`font-body ${index === 3 ? 'text-xs' : 'text-sm'}`}>{event.location}</span>
+                    <span className="font-body text-xs sm:text-sm font-medium">{event.location}</span>
                   </motion.div>
 
                   {/* Note with Glassmorphism */}
