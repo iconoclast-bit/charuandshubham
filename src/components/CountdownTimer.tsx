@@ -40,114 +40,48 @@ const CountdownTimer = () => {
   }, []);
 
   const TimeBlock = ({ value, label, index }: { value: number; label: string; index: number }) => {
-    const digits = value.toString().padStart(2, '0').split('');
+    const displayValue = value.toString().padStart(2, '0');
     
     return (
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0, y: 20 }}
-        whileInView={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: index * 0.1 }}
-        viewport={{ once: true }}
-        className="flex flex-col items-center"
-      >
-        <div className="relative group">
-          {/* Glow Effect */}
-          <div className="absolute -inset-2 bg-gold/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="flex flex-col items-center">
+        {/* Modern Trendy Card Design */}
+        <div className="relative">
+          {/* Outer Glow Effect */}
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-gold/30 via-gold/20 to-gold/30 rounded-2xl blur-sm opacity-50" />
           
-          {/* Card Container */}
-          <div className="relative flex gap-1">
-            {digits.map((digit, digitIndex) => (
-              <div
-                key={digitIndex}
-                className="relative w-10 h-14 md:w-14 md:h-20 perspective-1000"
-              >
-                {/* Glass Card */}
-                <div className="absolute inset-0 bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-gold/30 rounded-xl overflow-hidden">
-                  {/* Shine Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-gold/10 via-transparent to-transparent" />
-                  
-                  {/* Top Reflection */}
-                  <div className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-cream/10 to-transparent" />
-                  
-                  {/* Number with Flip Animation */}
-                  <AnimatePresence mode="popLayout">
-                    <motion.span
-                      key={digit}
-                      initial={{ rotateX: -90, opacity: 0 }}
-                      animate={{ rotateX: 0, opacity: 1 }}
-                      exit={{ rotateX: 90, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: "easeOut" }}
-                      className="absolute inset-0 flex items-center justify-center font-heading text-2xl md:text-4xl font-bold text-cream"
-                    >
-                      {digit}
-                    </motion.span>
-                  </AnimatePresence>
-                </div>
-              </div>
-            ))}
+          {/* Main Card */}
+          <div className="relative bg-gradient-to-br from-background/40 via-background/30 to-background/20 backdrop-blur-2xl border border-gold/40 rounded-2xl px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 shadow-xl">
+            {/* Number Display - Large and Bold */}
+            <div className="text-center">
+              <span className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gold block leading-none" style={{ textShadow: '0 2px 12px rgba(212, 175, 55, 0.4)' }}>
+                {displayValue}
+              </span>
+            </div>
           </div>
-
-          {/* Floating Particles */}
-          <motion.div
-            className="absolute -top-1 -right-1 w-2 h-2 bg-gold rounded-full"
-            animate={{ 
-              y: [-2, -8, -2],
-              opacity: [0.5, 1, 0.5],
-              scale: [0.8, 1, 0.8]
-            }}
-            transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
-          />
         </div>
 
-        {/* Label */}
-        <motion.span 
-          className="mt-3 font-body text-xs md:text-sm text-cream/70 uppercase tracking-[0.2em]"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.5 + index * 0.1 }}
-          viewport={{ once: true }}
-        >
+        {/* Label - Clean Typography */}
+        <span className="mt-3 sm:mt-4 font-body text-xs sm:text-sm md:text-base text-cream/80 uppercase tracking-widest font-light">
           {label}
-        </motion.span>
-      </motion.div>
+        </span>
+      </div>
     );
   };
 
-  const Separator = ({ index }: { index: number }) => (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-      viewport={{ once: true }}
-      className="flex flex-col gap-2 mx-1 md:mx-3 mt-[-1rem]"
-    >
-      <motion.div 
-        className="w-2 h-2 bg-gold rounded-full"
-        animate={{ 
-          scale: [1, 1.3, 1],
-          opacity: [0.6, 1, 0.6]
-        }}
-        transition={{ duration: 1.5, repeat: Infinity, delay: index * 0.2 }}
-      />
-      <motion.div 
-        className="w-2 h-2 bg-gold rounded-full"
-        animate={{ 
-          scale: [1, 1.3, 1],
-          opacity: [0.6, 1, 0.6]
-        }}
-        transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 + index * 0.2 }}
-      />
-    </motion.div>
+  const Separator = () => (
+    <div className="flex items-center justify-center mx-2 sm:mx-3 md:mx-4">
+      <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-gold rounded-full" />
+    </div>
   );
 
   return (
-    <div className="flex items-start justify-center gap-2 md:gap-4">
+    <div className="flex items-center justify-center gap-1 sm:gap-4 md:gap-6 lg:gap-8 flex-wrap">
       <TimeBlock value={timeLeft.days} label="Days" index={0} />
-      <Separator index={0} />
+      <Separator />
       <TimeBlock value={timeLeft.hours} label="Hours" index={1} />
-      <Separator index={1} />
+      <Separator />
       <TimeBlock value={timeLeft.minutes} label="Minutes" index={2} />
-      <Separator index={2} />
+      <Separator />
       <TimeBlock value={timeLeft.seconds} label="Seconds" index={3} />
     </div>
   );

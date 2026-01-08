@@ -1,5 +1,5 @@
 import HeroSection from '@/components/HeroSection';
-import EventCard from '@/components/EventCard';
+import TimelineScroll from '@/components/TimelineScroll';
 import FooterSection from '@/components/FooterSection';
 import RSVPButton from '@/components/RSVPButton';
 import BackgroundMusic from '@/components/BackgroundMusic';
@@ -10,9 +10,13 @@ import PhotoGallery from '@/components/PhotoGallery';
 import carnivalImg from '@/assets/carnival.png';
 import haldibgImg from '@/assets/haldibg.png';
 import haldibg3Img from '@/assets/haldibg-3.png';
+import haldi10bgImg from '@/assets/haldi10bg.png';
 import sangeetImg from '@/assets/sangeet.png';
 import sangeetbgImg from '@/assets/sangeetbg.png';
+import tilakbgImg from '@/assets/tilakbg.png';
 import weddingbgImg from '@/assets/weddingbg.png';
+import haldiMehandiFImg from '@/assets/HaldiMehandiF.png';
+import haldiMehandiMImg from '@/assets/HaldiMehandiM.png';
 
 const weddingData = {
   bride: "Charu Srivastava",
@@ -23,8 +27,8 @@ const weddingData = {
       name: "Haldi & Mehendi",
       date: "10th Feb 2026",
       time: "2:00 PM",
-      location: "Gurjar Bhavan, Sec 16 & Sec 49 (Home)",
-      bg: haldibgImg,
+      location: "Gurjar Bhavan, Sec 16",
+      bg: haldi10bgImg,
       effect: 'marigold' as const,
     },
     {
@@ -32,7 +36,7 @@ const weddingData = {
       date: "11th Feb 2026",
       time: "3:00 PM",
       location: "Kisan Bhavan, Sec 16",
-      bg: haldibgImg,
+      bg: tilakbgImg,
       effect: 'marigold' as const,
     },
     {
@@ -68,31 +72,18 @@ const weddingData = {
 
 const Index = () => {
   return (
-    <main className="bg-background">
+    <main className="bg-transparent">
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Event Cards with Sticky Scroll */}
-      <section className="relative">
-        {weddingData.events.map((event, index) => (
-          <EventCard
-            key={event.name}
-            event={event}
-            backgroundImage={event.bg}
-            foregroundImage={event.asset}
-            video={event.video}
-            index={index}
-            effect={event.effect}
-            totalCards={weddingData.events.length}
-          />
-        ))}
-      </section>
-
-      {/* Venue Maps Section */}
-      <VenueSection />
+      {/* Event Cards with Timeline Scroll */}
+      <TimelineScroll events={weddingData.events} />
 
       {/* Photo Gallery */}
       <PhotoGallery />
+
+      {/* Venue Maps Section */}
+      <VenueSection />
 
       {/* Footer with Countdown */}
       <FooterSection />
