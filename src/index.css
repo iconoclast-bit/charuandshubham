@@ -117,20 +117,10 @@
 
   html {
     scroll-behavior: smooth;
-    margin: 0;
-    padding: 0;
   }
 
   body {
-    @apply bg-transparent text-foreground font-body antialiased;
-    margin: 0;
-    padding: 0;
-  }
-
-  main {
-    margin: 0;
-    padding: 0;
-    background: transparent;
+    @apply bg-background text-foreground font-body antialiased;
   }
 }
 
@@ -289,28 +279,5 @@
 
   .animate-scroll-indicator {
     animation: scroll-indicator 2s ease-in-out infinite;
-  }
-
-  .hero-twilight {
-    background: linear-gradient(to bottom,
-       hsl(240 30% 8%) 0%,
-       hsl(260 35% 15%) 30%,
-       hsl(280 40% 25%) 60%,
-       hsl(20 60% 40%) 85%,
-       hsl(35 70% 55%) 100%
-    );
-  }
-
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-
-  .perspective-1000 {
-    perspective: 1000px;
   }
 }

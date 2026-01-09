@@ -1,5 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 import VenueMap from './VenueMap';
 import { MapPin } from 'lucide-react';
 
@@ -22,27 +21,10 @@ const venues = [
 ];
 
 const VenueSection = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // Parallax scroll tracking
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  // Background parallax - moves slower
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "5%"]);
-  
-  // Content parallax - moves faster than background
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"]);
-
   return (
-    <section ref={sectionRef} className="relative py-24 bg-gradient-to-b from-background via-background to-midnight/5 overflow-hidden">
-      {/* Animated Background Elements - Moves slower */}
-      <motion.div 
-        className="absolute inset-0"
-        style={{ y: backgroundY }}
-      >
+    <section className="relative py-24 bg-gradient-to-b from-background via-background to-midnight/5 overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
         <motion.div 
           className="absolute top-20 left-1/4 w-72 h-72 bg-gold/5 rounded-full blur-3xl"
           animate={{ 
@@ -59,23 +41,17 @@ const VenueSection = () => {
           }}
           transition={{ duration: 10, repeat: Infinity }}
         />
-      </motion.div>
+      </div>
 
-      {/* Decorative Line Pattern - Moves slower */}
-      <motion.div 
-        className="absolute inset-0 opacity-[0.02]"
-        style={{ y: backgroundY }}
-      >
+      {/* Decorative Line Pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
         <div className="absolute inset-0" style={{
           backgroundImage: `repeating-linear-gradient(45deg, hsl(var(--gold)) 0, hsl(var(--gold)) 1px, transparent 0, transparent 50%)`,
           backgroundSize: '40px 40px'
         }} />
-      </motion.div>
+      </div>
 
-      <motion.div 
-        className="relative z-10 max-w-6xl mx-auto px-6"
-        style={{ y: contentY }}
-      >
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -153,7 +129,7 @@ const VenueSection = () => {
             </motion.div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

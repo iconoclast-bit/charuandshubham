@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, Music } from 'lucide-react';
-import bgmusic from '@/assets/bgmusic.mp3';
 
 const BackgroundMusic = () => {
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [showPrompt, setShowPrompt] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -21,42 +20,19 @@ const BackgroundMusic = () => {
   };
 
   useEffect(() => {
-    // Auto-play music on mount
-    const playMusic = async () => {
-      if (audioRef.current) {
-        try {
-          await audioRef.current.play();
-          setIsPlaying(true);
-        } catch (error) {
-          // Autoplay was prevented, user interaction required
-          setIsPlaying(false);
-          console.log('Autoplay prevented, user interaction required');
-        }
-      }
-    };
-
-    // Small delay to ensure audio element is ready
-    const timer = setTimeout(() => {
-      playMusic();
-    }, 500);
-
     // Hide prompt after 10 seconds
-    const promptTimer = setTimeout(() => setShowPrompt(false), 10000);
-    
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(promptTimer);
-    };
+    const timer = setTimeout(() => setShowPrompt(false), 10000);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <>
-      {/* Hidden Audio Element */}
+      {/* Hidden Audio Element - Using a royalty-free Indian wedding track */}
       <audio
         ref={audioRef}
         loop
         preload="auto"
-        src={bgmusic}
+        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"
       />
 
       {/* Music Control Button */}
