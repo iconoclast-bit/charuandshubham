@@ -21,7 +21,7 @@ import haldiMehandiMImg from '@/assets/HaldiMehandiM.png';
 const weddingData = {
   bride: "Charu Srivastava",
   groom: "Shubham Srivastava",
-  dates: "10-12 Feb 2026",
+  dates: "11-12 Feb 2026",
   events: [
     {
       name: "Haldi & Mehendi",
