@@ -55,7 +55,7 @@ const FooterSection = () => {
           <div className="flex items-center justify-center gap-2 text-cream/60">
             <span className="font-body text-sm">Made with</span>
             <Heart className="w-4 h-4 text-burgundy-light fill-burgundy-light" />
-            <span className="font-body text-sm">for #SHURU</span>
+            <span className="font-body text-sm">for Charu & Shubham</span>
           </div>
         </motion.div>
 
@@ -67,7 +67,7 @@ const FooterSection = () => {
           viewport={{ once: true }}
           className="mt-12 font-body text-xs text-cream/40"
         >
-          © 2026 Shubham & Charu Wedding
+          © 2026 Charu & Shubham Wedding
         </motion.p>
       </div>
     </footer>
