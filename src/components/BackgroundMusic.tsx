@@ -4,7 +4,7 @@ import { Volume2, VolumeX, Music } from 'lucide-react';
 import bgmusic from '@/assets/bgmusic.mp3';
 
 const BackgroundMusic = () => {
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [showPrompt, setShowPrompt] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -13,50 +13,82 @@ const BackgroundMusic = () => {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        audioRef.current.play().catch(e => console.log("Manual play failed:", e));
       }
-      setIsPlaying(!isPlaying);
+      // Note: We don't set setIsPlaying here manually anymore.
+      // We let the onPlay/onPause events handle it for perfect sync.
       setShowPrompt(false);
     }
   };
 
   useEffect(() => {
-    // Auto-play music on mount
-    const playMusic = async () => {
+    // 1. ATTEMPT AUTO-PLAY ON LOAD
+    const attemptAutoPlay = async () => {
       if (audioRef.current) {
         try {
           await audioRef.current.play();
-          setIsPlaying(true);
+          // If successful, the onPlay event will update state
         } catch (error) {
-          // Autoplay was prevented, user interaction required
-          setIsPlaying(false);
-          console.log('Autoplay prevented, user interaction required');
+          console.log("Auto-play blocked by browser. Waiting for interaction...");
         }
       }
     };
+    
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => attemptAutoPlay(), 1000);
 
-    // Small delay to ensure audio element is ready
-    const timer = setTimeout(() => {
-      playMusic();
-    }, 500);
+    // 2. THE INTERACTION TRAP
+    // This function runs on the FIRST tap/scroll anywhere on the site
+    const unlockAudio = () => {
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current.play()
+          .then(() => {
+            // Success! Remove the traps so we don't keep firing this
+            cleanupListeners();
+          })
+          .catch((e) => {
+            // Interaction happened, but browser still said no. Keep listeners active.
+            console.log("Interaction unlock failed:", e);
+          });
+      }
+    };
 
-    // Hide prompt after 10 seconds
-    const promptTimer = setTimeout(() => setShowPrompt(false), 10000);
+    const cleanupListeners = () => {
+      document.removeEventListener('click', unlockAudio);
+      document.removeEventListener('touchstart', unlockAudio);
+      document.removeEventListener('scroll', unlockAudio);
+      document.removeEventListener('keydown', unlockAudio);
+    };
+
+    // Add "Trap" listeners to the entire document
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('touchstart', unlockAudio);
+    document.addEventListener('scroll', unlockAudio); // Even scrolling counts as interaction now
+    document.addEventListener('keydown', unlockAudio);
+
+    // Hide prompt after 15 seconds
+    const promptTimer = setTimeout(() => setShowPrompt(false), 15000);
     
     return () => {
       clearTimeout(timer);
       clearTimeout(promptTimer);
+      cleanupListeners();
     };
   }, []);
 
   return (
     <>
-      {/* Hidden Audio Element */}
+      {/* AUDIO ELEMENT 
+        - We use onPlay/onPause to update state. 
+        - This ensures the icon ALWAYS matches reality.
+      */}
       <audio
         ref={audioRef}
         loop
         preload="auto"
         src={bgmusic}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
       />
 
       {/* Music Control Button */}
@@ -66,9 +98,9 @@ const BackgroundMusic = () => {
         transition={{ delay: 2, duration: 0.5 }}
         className="fixed bottom-24 right-6 z-50"
       >
-        {/* Prompt Tooltip */}
+        {/* Prompt Tooltip - Only shows if NOT playing */}
         <AnimatePresence>
-          {showPrompt && (
+          {showPrompt && !isPlaying && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -78,7 +110,7 @@ const BackgroundMusic = () => {
               <div className="bg-background/95 backdrop-blur-md border border-gold/30 rounded-lg px-4 py-2 shadow-gold">
                 <p className="text-sm text-foreground flex items-center gap-2">
                   <Music className="w-4 h-4 text-gold" />
-                  Click to play music
+                  Tap to play music
                 </p>
               </div>
             </motion.div>

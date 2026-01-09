@@ -42,7 +42,7 @@ const HeroSection = () => {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const backgroundScale = useTransform(scrollYProgress, [0, 1], [0.95, 1]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.4, 0.9], [1,1, 0]);
 
   const titleText = "The Wedding Celebration of";
 
@@ -55,7 +55,7 @@ const HeroSection = () => {
   const groomFamily = {
     title: "Groom's Family",
     parents: "Mr. Rajeev Bhushan & Mrs. Abha Srivastava",
-    sibling: "Brother-in-law: Mr. Siddhant Gupta & Sister: Mrs. Shubhangi Srivastava",
+    sibling: "Sister: Mrs. Shubhangi Srivastava & \nBrother-in-law: Mr. Siddhant Gupta",
   };
 
   const FamilyCard = ({ family, delay }: { family: typeof brideFamily; delay: number }) => (
@@ -77,8 +77,13 @@ const HeroSection = () => {
         {family.title}
       </motion.h3>
       <p className="font-heading text-base text-foreground/90 mb-1">{family.parents}</p>
-      <p className="font-body text-sm text-muted-foreground">{family.sibling}</p>
+
+      {/* Added 'whitespace-pre-line' here */}
+      <p className="font-body text-sm text-muted-foreground whitespace-pre-line">
+        {family.sibling}
+      </p>
     </motion.div>
+    
   );
 
   return (
@@ -261,7 +266,14 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 1.8 }}
           className="font-heading text-lg md:text-xl text-foreground/80 italic mb-10"
         >
-          <AnimatedText text="Together with their families invite you to celebrate their union" delay={1.8} />
+          <span className="block">
+            <AnimatedText text="Together with their families" delay={1.8} />
+          </span>
+          
+          {/* Line 2 (Delay calculated: 1.8s + time for first line animation) */}
+          <span className="block">
+            <AnimatedText text="invite you to celebrate their union" delay={2.5} />
+          </span>
         </motion.p>
 
         {/* Family Credits Section */}

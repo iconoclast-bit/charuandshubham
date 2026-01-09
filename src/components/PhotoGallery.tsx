@@ -1,4 +1,4 @@
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, PanInfo } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { Heart, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import pg1Img from '@/assets/pg1.jpeg';
@@ -11,36 +11,12 @@ import logoImg from '@/assets/logo.png';
 
 // Gallery images using pg1-6
 const galleryImages = [
-  {
-    id: 1,
-    src: pg1Img,
-    alt: "Wedding memory 1",
-  },
-  {
-    id: 2,
-    src: pg2Img,
-    alt: "Wedding memory 2",
-  },
-  {
-    id: 3,
-    src: pg3Img,
-    alt: "Wedding memory 3",
-  },
-  {
-    id: 4,
-    src: pg4Img,
-    alt: "Wedding memory 4",
-  },
-  {
-    id: 5,
-    src: pg5Img,
-    alt: "Wedding memory 5",
-  },
-  {
-    id: 6,
-    src: pg6Img,
-    alt: "Wedding memory 6",
-  }
+  { id: 1, src: pg1Img, alt: "Wedding memory 1" },
+  { id: 2, src: pg2Img, alt: "Wedding memory 2" },
+  { id: 3, src: pg3Img, alt: "Wedding memory 3" },
+  { id: 4, src: pg4Img, alt: "Wedding memory 4" },
+  { id: 5, src: pg5Img, alt: "Wedding memory 5" },
+  { id: 6, src: pg6Img, alt: "Wedding memory 6" }
 ];
 
 const PhotoGallery = () => {
@@ -79,6 +55,20 @@ const PhotoGallery = () => {
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
+  };
+
+  // --- NEW: Handle Swipe Logic ---
+  const handleDragEnd = (event: any, info: PanInfo) => {
+    const SWIPE_THRESHOLD = 50; // Minimum distance to trigger swipe
+
+    // If dragged left (negative x), go next
+    if (info.offset.x < -SWIPE_THRESHOLD) {
+      goToNext();
+    } 
+    // If dragged right (positive x), go previous
+    else if (info.offset.x > SWIPE_THRESHOLD) {
+      goToPrevious();
+    }
   };
 
   const getPrevIndex = () => (currentIndex - 1 + galleryImages.length) % galleryImages.length;
@@ -167,7 +157,7 @@ const PhotoGallery = () => {
               </motion.div>
             </AnimatePresence>
 
-            {/* Main Image (Center) */}
+            {/* --- Main Image (Center) WITH SWIPE SUPPORT --- */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -175,13 +165,20 @@ const PhotoGallery = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="relative flex-shrink-0 w-[70%] sm:w-[64%] md:w-[60%] aspect-[3/4] rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer shadow-2xl"
+                // ADDED PROPS BELOW
+                drag="x" 
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={handleDragEnd}
+                whileDrag={{ cursor: "grabbing" }}
+                // END ADDED PROPS
+                className="relative flex-shrink-0 w-[70%] sm:w-[64%] md:w-[60%] aspect-[3/4] rounded-xl sm:rounded-2xl overflow-hidden cursor-grab shadow-2xl touch-pan-y"
                 onClick={() => setSelectedImage(galleryImages[currentIndex].src)}
               >
                 <img
                   src={galleryImages[currentIndex].src}
                   alt={galleryImages[currentIndex].alt}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover pointer-events-none" // prevent img drag ghost
                 />
                 
                 {/* Heart Icon - Bottom Left */}
