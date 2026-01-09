@@ -60,11 +60,8 @@ const EventCard = ({
   // Content parallax - moves significantly faster than background (negative Y = moves up faster)
   // Elements fade in when section is 20% visible, fully visible at 40%
   // Increased speed: content moves -80px to -120px while background moves only 5%
-  // For Wedding (index 4), reduce container movement to allow title to move higher
   const contentOpacity = useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [0, 0, 1, 1, 0.8]);
-  const contentY = index === 4
-    ? useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [60, 30, 0, -60, -100]) // Wedding: Less container movement
-    : useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [60, 30, 0, -80, -150]); // Other pages: original
+  const contentY = useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [60, 30, 0, -80, -150]);
   
   // Foreground image fade-in with faster parallax
   // Foreground elements move even faster than content
@@ -73,24 +70,14 @@ const EventCard = ({
   const foregroundScale = useTransform(scrollProgress, [0, 0.15, 0.35, 0.8, 1], [0.8, 0.9, 1, 1, 0.95]);
   
   // Event name fade-in with faster parallax
-  // Custom positioning for specific pages to avoid background element overlap
-  // Wedding (index 4): Title moves above roses when fully scrolled
-  // Phoolon ki Haldi (index 3): Title moves below top leaves when fully scrolled
+  // For Wedding (index 4), title moves to upper position when fully scrolled
+  // Responsive positioning for mobile devices - uses viewport-based calculation
   const titleOpacity = useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [0, 0, 1, 1, 0.8]);
   const titleY = index === 4
     ? isMobile
-      // Mobile Index 4 (Wedding): Moved SIGNIFICANTLY UP
-      // Resting position changed from 0 to -120
-      ? useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [-20, -70, -20, -200, "-60vh"]) 
-      // Desktop Index 4 (Wedding): Moved SIGNIFICANTLY UP
-      // Resting position changed from 0 to -150
-      : useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [-20, -80, -20, -350, -600])
-    : index === 3
-    ? isMobile
-      ? useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [320, 280, 300, 220, "15vh"]) 
-    // Desktop Index 3: Pushed way down to bottom area
-      : useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [320, 280, 250, 200, 100])
-    : useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [40, 0, -30, -90, -170]);// Other pages: original
+      ? useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [70, 35, 0, -50, "-25vh"]) // Mobile: uses viewport height for consistent alignment
+      : useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [70, 35, 0, -120, -280]) // Desktop: moves higher to match image position
+    : useTransform(scrollProgress, [0, 0.2, 0.4, 0.8, 1], [70, 35, 0, -90, -170]); // Other pages: original
   
   // Details fade-in (slightly delayed) with faster parallax
   const detailsOpacity = useTransform(scrollProgress, [0, 0.25, 0.45, 0.8, 1], [0, 0, 1, 1, 0.8]);
@@ -194,19 +181,17 @@ const EventCard = ({
               <>
                 {/* Event Name - Scroll-triggered fade-in with enhanced styling */}
             <motion.h2
-              // className={`font-display mb-4 font-bold ${index === 3 ? 'text-2xl sm:text-3xl md:text-4xl' : 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl'}`}
-              className={`font-display mb-4 font-bold inline-block px-6 py-2 rounded-full ${index === 3 ? 'text-2xl sm:text-3xl md:text-4xl' : 'text-3xl sm:text-4xl md:text-5xl'}`}  
-              style={{
+              className={`font-display mb-4 font-bold ${index === 3 ? 'text-lg sm:text-xl md:text-2xl' : 'text-xl sm:text-2xl md:text-3xl'}`}
+                style={{
                 opacity: titleOpacity,
                 y: titleY,
                 textShadow: index === 3 
                   ? '0 2px 8px rgba(0,0,0,0.8), 0 4px 16px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.4)'
                   : '0 2px 10px rgba(0,0,0,0.7), 0 4px 20px rgba(0,0,0,0.5)',
                 ...(index === 4 
-                  
-                  ? { color: 'hsl(0, 29.00%, 93.90%)' }
+                  ? { color: 'hsl(350, 65%, 35%)' }
                   : index === 3
-                    ? { color: 'hsl(213, 29.00%, 93.90%)' } // Deep navy blue for Phoolon ki Haldi - high contrast on pastel
+                    ? { color: '#1a365d' } // Deep navy blue for Phoolon ki Haldi - high contrast on pastel
                     : {
                         background: 'linear-gradient(135deg, rgba(252, 248, 240, 1) 0%, rgba(252, 248, 240, 0.95) 50%, rgba(212, 175, 55, 0.8) 100%)',
                         WebkitBackgroundClip: 'text',
@@ -215,7 +200,6 @@ const EventCard = ({
                       }
                 ),
               }}
-              
             >
               {event.name.split(' ').map((word, wordIndex) => (
                 <motion.span
@@ -546,7 +530,7 @@ const EventCard = ({
 
                 {/* Event Name - Scroll-triggered fade-in with enhanced styling */}
                 <motion.h2
-                  className={`font-display mb-4 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl`}
+                  className={`font-display mb-4 font-bold ${index === 0 ? 'text-xl sm:text-2xl md:text-3xl' : 'text-xl sm:text-2xl md:text-3xl'}`}
                   style={{
                     opacity: titleOpacity,
                     y: titleY,

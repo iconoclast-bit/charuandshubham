@@ -24,6 +24,14 @@ const weddingData = {
   dates: "10-12 Feb 2026",
   events: [
     {
+      name: "Haldi & Mehendi",
+      date: "10th Feb 2026",
+      time: "2:00 PM",
+      location: "Gurjar Bhavan, Sec 16",
+      bg: haldi10bgImg,
+      effect: 'marigold' as const,
+    },
+    {
       name: "Tilak",
       date: "11th Feb 2026",
       time: "3:00 PM",

@@ -5,6 +5,11 @@ import { MapPin } from 'lucide-react';
 
 const venues = [
   {
+    name: "Gurjar Bhavan",
+    address: "Sector 16, Faridabad, Haryana",
+    mapQuery: "Gurjar Bhavan, Sector 16, Faridabad, Haryana, India"
+  },
+  {
     name: "Kisan Bhavan",
     address: "Sector 16, Faridabad, Haryana",
     mapQuery: "Kisan Bhavan, Sector 16, Faridabad, Haryana, India"
