@@ -4,11 +4,7 @@ import VenueMap from './VenueMap';
 import { MapPin } from 'lucide-react';
 
 const venues = [
-  {
-    name: "Gurjar Bhavan",
-    address: "Sector 16, Faridabad, Haryana",
-    mapQuery: "Gurjar Bhavan, Sector 16, Faridabad, Haryana, India"
-  },
+  // Gurjar Bhavan Removed
   {
     name: "Kisan Bhavan",
     address: "Sector 16, Faridabad, Haryana",
@@ -136,7 +132,8 @@ const VenueSection = () => {
         </motion.div>
 
         {/* Venue Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Changed lg:grid-cols-3 to lg:grid-cols-2 to center the remaining 2 items nicely */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {venues.map((venue, index) => (
             <motion.div
               key={venue.name}

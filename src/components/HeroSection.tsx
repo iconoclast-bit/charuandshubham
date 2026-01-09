@@ -204,7 +204,7 @@ const HeroSection = () => {
           className="inline-block mb-6"
         >
           <span className="px-6 py-2 bg-gradient-to-r from-gold/90 via-gold/80 to-gold/90 backdrop-blur-xl text-primary-foreground font-body text-sm tracking-widest uppercase rounded-full shadow-gold border border-gold/30">
-            10 - 12 February 2026
+            11 - 12 February 2026
           </span>
         </motion.div>
 
