@@ -1,5 +1,7 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import VenueMap from './VenueMap';
+import { MapPin } from 'lucide-react';
 
 const venues = [
   {
@@ -20,32 +22,117 @@ const venues = [
 ];
 
 const VenueSection = () => {
-  return (
-    <section className="relative py-20 bg-background overflow-hidden">
-      {/* Decorative Background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gold rounded-full blur-3xl" />
-      </div>
+  const sectionRef = useRef<HTMLElement>(null);
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
+  // Parallax scroll tracking
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Background parallax - moves slower
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "5%"]);
+  
+  // Content parallax - moves faster than background
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"]);
+
+  return (
+    <section ref={sectionRef} className="relative py-24 bg-gradient-to-b from-background via-background to-midnight/5 overflow-hidden">
+      {/* Animated Background Elements - Moves slower */}
+      <motion.div 
+        className="absolute inset-0"
+        style={{ y: backgroundY }}
+      >
+        <motion.div 
+          className="absolute top-20 left-1/4 w-72 h-72 bg-gold/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+        <motion.div 
+          className="absolute bottom-20 right-1/4 w-96 h-96 bg-burgundy/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ duration: 10, repeat: Infinity }}
+        />
+      </motion.div>
+
+      {/* Decorative Line Pattern - Moves slower */}
+      <motion.div 
+        className="absolute inset-0 opacity-[0.02]"
+        style={{ y: backgroundY }}
+      >
+        <div className="absolute inset-0" style={{
+          backgroundImage: `repeating-linear-gradient(45deg, hsl(var(--gold)) 0, hsl(var(--gold)) 1px, transparent 0, transparent 50%)`,
+          backgroundSize: '40px 40px'
+        }} />
+      </motion.div>
+
+      <motion.div 
+        className="relative z-10 max-w-6xl mx-auto px-6"
+        style={{ y: contentY }}
+      >
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-1 bg-gold/10 border border-gold/30 rounded-full text-sm text-gold font-body tracking-wider uppercase mb-4">
+          {/* Icon Badge */}
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center justify-center w-16 h-16 bg-gradient-gold rounded-full shadow-gold mb-6"
+          >
+            <MapPin className="w-8 h-8 text-primary-foreground" />
+          </motion.div>
+
+          <motion.span 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="block text-sm text-gold font-body tracking-[0.3em] uppercase mb-3"
+          >
             Find Your Way
-          </span>
-          <h2 className="font-display text-4xl md:text-6xl text-gold mb-4">
+          </motion.span>
+          
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="font-display text-4xl md:text-6xl text-gold mb-4"
+          >
             Venue Locations
-          </h2>
-          <p className="font-heading text-lg text-muted-foreground italic max-w-lg mx-auto">
+          </motion.h2>
+          
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            viewport={{ once: true }}
+            className="font-heading text-lg text-muted-foreground italic max-w-lg mx-auto"
+          >
             All the places where we'll celebrate our union
-          </p>
+          </motion.p>
+
+          {/* Decorative Line */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            viewport={{ once: true }}
+            className="w-24 h-0.5 bg-gradient-gold mx-auto mt-6"
+          />
         </motion.div>
 
         {/* Venue Cards Grid */}
@@ -53,16 +140,20 @@ const VenueSection = () => {
           {venues.map((venue, index) => (
             <motion.div
               key={venue.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: index * 0.15,
+                ease: [0.22, 1, 0.36, 1]
+              }}
               viewport={{ once: true }}
             >
               <VenueMap {...venue} />
             </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
