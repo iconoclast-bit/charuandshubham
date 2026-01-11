@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import flowerImg from '@/assets/flower.jpg';
 
 interface Petal {
   id: number;
@@ -64,24 +65,12 @@ const MarigoldShower = ({ isActive }: { isActive: boolean }) => {
               height: petal.size,
             }}
           >
-            {/* Marigold Petal SVG */}
-            <svg viewBox="0 0 100 100" className="w-full h-full">
-              <defs>
-                <radialGradient id={`marigold-${petal.id}`} cx="50%" cy="30%" r="70%">
-                  <stop offset="0%" stopColor="#FFD93D" />
-                  <stop offset="50%" stopColor="#FF9F1C" />
-                  <stop offset="100%" stopColor="#F77F00" />
-                </radialGradient>
-              </defs>
-              <ellipse 
-                cx="50" 
-                cy="50" 
-                rx="30" 
-                ry="45" 
-                fill={`url(#marigold-${petal.id})`}
-                transform={`rotate(${petal.rotation} 50 50)`}
-              />
-            </svg>
+            {/* Flower Image */}
+            <img 
+              src={flowerImg} 
+              alt="Flower petal" 
+              className="w-full h-full object-contain"
+            />
           </motion.div>
         ))}
       </AnimatePresence>

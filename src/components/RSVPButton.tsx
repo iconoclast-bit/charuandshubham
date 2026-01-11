@@ -2,10 +2,15 @@ import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
 
 const RSVPButton = () => {
+  const phoneNumber = "919023021642"; // +91 9023021642 without + and spaces
   const whatsappMessage = encodeURIComponent(
     "Hi Charu & Shubham! I would love to attend your wedding. - [Name]"
   );
-  const whatsappLink = `https://wa.me/?text=${whatsappMessage}`;
+  // WhatsApp link with phone number and pre-filled message
+  const whatsappLink = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
+  
+  // Alternative: Direct phone call link (uncomment if preferred)
+  // const phoneLink = `tel:+91${phoneNumber}`;
 
   return (
     <motion.a
